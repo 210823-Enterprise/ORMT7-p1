@@ -22,9 +22,7 @@ public class ObjectSetter {
 			fields = fields.substring(0, fields.length() - 1); //trims comma
 		}
 		
-		String sql = "CREATE TABLE IF NOT EXISTS " + model.getSimpleClassName() + " (" + fields + ");";
-		
-		System.out.println(sql);
+		String sql = "CREATE TABLE IF NOT EXISTS " + model.getSimpleClassName() + " (" + fields + ");";;
 		
 		int retVal = 0;
 		
