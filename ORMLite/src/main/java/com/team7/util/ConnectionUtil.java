@@ -39,21 +39,28 @@ public class ConnectionUtil {
 		String password = "";
 		
 		try {
-			prop.load(new FileReader("target/classes/new.properties"));
+			prop.load(new FileReader("C:\\Users\\zodia\\Documents\\GitHub\\ORMT7-p1\\ORMLite\\src\\main\\resources\\new.properties"));
 			url = prop.getProperty("url");
 			username = prop.getProperty("username");
 			password = prop.getProperty("password");
 			conn = DriverManager.getConnection(url, username, password);
-			
+			System.out.println("SUCCESS!!!!!");
 			//log.info("db connection established");
 		} catch (IOException e) {
+			System.out.println("CAN't FIND FILE");
 			//log.error("cannot locate application.properties file");
 			e.printStackTrace();
 		} catch (SQLException e) {
+			System.out.println("SQL EXCPEITON");
 			//log.error("cannot establish database connection");
 			return null;
 		}
 		return conn;
+	}
+	
+	public static void main(String[] args) {
+		
+		Connection conn = ConnectionUtil.getConnection();
 	}
 
 }

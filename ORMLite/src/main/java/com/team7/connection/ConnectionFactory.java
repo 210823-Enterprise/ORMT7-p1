@@ -34,7 +34,7 @@ public class ConnectionFactory {
 		
 		try {
 			Properties props = new Properties();
-			props.load(new FileReader("src/main/resources/new.properties"));
+			props.load(new FileReader("C:\\Users\\zodia\\Documents\\GitHub\\ORMT7-p1\\ORMLite\\src\\main\\resources\\new.properties"));
 			ds = new BasicDataSource();
 			ds.setUrl(props.getProperty("url"));
 			ds.setUsername(props.getProperty("username"));
@@ -66,6 +66,7 @@ public class ConnectionFactory {
 		try {
 			return ds.getConnection();
 		} catch (SQLException e) {
+			System.out.println("failyure from the connection factory");
 			e.printStackTrace();
 		}
 		return null;
