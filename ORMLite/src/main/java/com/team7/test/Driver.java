@@ -3,6 +3,7 @@ package com.team7.test;
 import java.sql.Connection;
 import java.util.List;
 
+import com.team7.mappers.ObjectReader;
 import com.team7.mappers.ObjectSetter;
 import com.team7.util.ColumnField;
 import com.team7.util.Configuration;
@@ -30,7 +31,7 @@ for (MetaModel<?> metamodel : cfg.getMetaModels()) {
 				
 			}
 		}
-		ObjectSetter.readFromDb(yub, conn);
+		ObjectReader.readFromDb(yub, conn);
 		
 	}
 	
