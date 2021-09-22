@@ -42,6 +42,7 @@ public class ObjectSetter {
 			System.out.println(success);
 		} catch (SQLException e) {
 			System.out.println("unable to add table");
+			//lo
 			e.printStackTrace();
 		}
 		

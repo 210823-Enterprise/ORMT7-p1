@@ -66,7 +66,7 @@ public class ConnectionFactory {
 		try {
 			return ds.getConnection();
 		} catch (SQLException e) {
-			System.out.println("failyure from the connection factory");
+			System.out.println("failure from the connection factory");
 			e.printStackTrace();
 		}
 		return null;
