@@ -16,10 +16,10 @@ public class Driver {
 	public static void main(String[] args) {
 		//set
 		Connection conn = ConnectionUtil.getConnection();
-		Object yub = new Testr();
+		ObjectReader read = new ObjectReader();
 		Configuration cfg = new Configuration();
 		cfg.addAnnotatedClass(Testr.class);
-for (MetaModel<?> metamodel : cfg.getMetaModels()) {
+		for (MetaModel<?> metamodel : cfg.getMetaModels()) {
 			
 			System.out.printf("Printing metamodel for class: %s\n ", metamodel.getClassName()); // %s is a place holder
 			
@@ -31,7 +31,8 @@ for (MetaModel<?> metamodel : cfg.getMetaModels()) {
 				
 			}
 		}
-		ObjectReader.readFromDb(yub, conn);
+		System.out.println(Testr.class);
+		read.readFromDb(Testr.class, conn);
 		
 	}
 	
