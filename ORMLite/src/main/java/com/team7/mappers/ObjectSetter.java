@@ -97,15 +97,6 @@ public class ObjectSetter {
 		}
 
 		return success;
-<<<<<<< HEAD
-		
-		/**
-		 * changed branch
-		 */
-		
-=======
-
->>>>>>> rashid
 	}
 	
 }
