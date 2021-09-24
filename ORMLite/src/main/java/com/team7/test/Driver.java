@@ -1,7 +1,10 @@
 package com.team7.test;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.team7.mappers.ObjectReader;
 import com.team7.mappers.ObjectSetter;
@@ -17,23 +20,15 @@ public class Driver {
 		//set
 		Connection conn = ConnectionUtil.getConnection();
 		ObjectReader read = new ObjectReader();
-		Configuration cfg = new Configuration();
-		cfg.addAnnotatedClass(Testr.class);
-		for (MetaModel<?> metamodel : cfg.getMetaModels()) {
-			
-			System.out.printf("Printing metamodel for class: %s\n ", metamodel.getClassName()); // %s is a place holder
-			
-			List<ColumnField> columnFields = metamodel.getColumns();
-			
-			for (ColumnField cf : columnFields) {
-					
-				System.out.printf("Found a column field named %s of type %s, which maps to the DB column %s\n", cf.getName(), cf.getType(), cf.getColumnName());
-				
-			}
+		Map<String, String> val = read.getEntry(Testr.class, conn, 0);
+		MetaModel<?> meta = MetaModel.of(Testr.class);
+		System.out.println(meta.getTableName());
+		for(ColumnField c : meta.getColumns())
+		{
+			System.out.println(val.get(c.getColumnName()));
 		}
 		System.out.println(Testr.class);
-		read.readFromDb(Testr.class, conn);
-		
+		read.readPrimaryKey(Testr.class, conn);
 	}
 	
 }

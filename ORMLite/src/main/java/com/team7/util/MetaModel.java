@@ -60,6 +60,11 @@ public class MetaModel<T> {
 	public String getSimpleClassName() {
 		return clazz.getSimpleName();
 	}
+	public String getTableName()
+	{
+		Entity table = this.clazz.getAnnotation(Entity.class);
+		return table.tableName();
+	}
 	
     public IdField getPrimaryKey() {
 

@@ -10,10 +10,10 @@ public class Testr {
 	private int id;
 	
 	@Column(columnName="test_username")
-	private String testUsername;
+	private String testUsername = "noah";
 	
 	@Column(columnName="test_password")
-	private String testPassword;
+	private String testPassword = "yub";
 	public Testr()
 	{
 		super();
