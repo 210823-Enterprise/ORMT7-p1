@@ -22,7 +22,7 @@ public class ObjectReader {
 	public boolean readFromDb(Class<?> obj, Connection conn)
 	{
 		MetaModel<?> metaknight = MetaModel.of(obj);
-		String sql = "SELECT * FROM " + metaknight.getSimpleClassName() + " WHERE";
+		String sql = "SELECT * FROM " + metaknight.getTableName() + " WHERE";
 		boolean success = false;
 		int col = 1;
 		List<ColumnField> parthenon = metaknight.getColumns();
@@ -61,7 +61,7 @@ public class ObjectReader {
 	public boolean readPrimaryKey(Class<?> obj, Connection conn)
 	{
 		MetaModel<?> metaknight = MetaModel.of(obj);
-		String sql = "SELECT * FROM " + metaknight.getSimpleClassName() + " WHERE " + metaknight.getPrimaryKey().getColumnName() +
+		String sql = "SELECT * FROM " + metaknight.getTableName() + " WHERE " + metaknight.getPrimaryKey().getColumnName() +
 				" = " + metaknight.getTableName();
 		boolean success = false;
 		
@@ -91,20 +91,17 @@ public class ObjectReader {
 	{
 		Map<String, String> ret = new HashMap();
 		MetaModel<?> meta = MetaModel.of(obj);
-		String sql = "SELECT * FROM "  + " WHERE " + meta.getPrimaryKey().getColumnName() + " = " + ki;
+		String sql = "SELECT * FROM " + meta.getTableName() + " WHERE " + meta.getPrimaryKey().getColumnName() + " = " + ki;
 		try
 		{
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next())
 			{
-				System.out.println("YUB");
 				ResultSetMetaData rsmeta = rs.getMetaData();
-				System.out.println(rsmeta.getColumnCount());
-				for(int i = 0; i < rsmeta.getColumnCount(); i++)
+				for(int i = 1; i <= rsmeta.getColumnCount(); i++)
 				{
 					ret.put(rsmeta.getColumnName(i), rs.getString(rsmeta.getColumnName(i)));
-					System.out.println(rsmeta.getColumnName(i));
 				}
 			}
 		}

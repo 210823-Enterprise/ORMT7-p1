@@ -20,14 +20,12 @@ public class Driver {
 		//set
 		Connection conn = ConnectionUtil.getConnection();
 		ObjectReader read = new ObjectReader();
-		Map<String, String> val = read.getEntry(Testr.class, conn, 0);
+		Map<String, String> val = read.getEntry(Testr.class, conn, 1);
 		MetaModel<?> meta = MetaModel.of(Testr.class);
-		System.out.println(meta.getTableName());
 		for(ColumnField c : meta.getColumns())
 		{
 			System.out.println(val.get(c.getColumnName()));
 		}
-		System.out.println(Testr.class);
 		read.readPrimaryKey(Testr.class, conn);
 	}
 	
