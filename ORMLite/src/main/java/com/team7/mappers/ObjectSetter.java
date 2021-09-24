@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.team7.connection.ConnectionFactory;
+import org.apache.log4j.Logger;
+
 import com.team7.util.ColumnField;
-import com.team7.util.ConnectionUtil;
 import com.team7.util.MetaModel;
 
 public class ObjectSetter {
+	
+	private static Logger log = Logger.getLogger(ObjectSetter.class);
 
 	public boolean setObject(Object obj, Connection conn){
 		MetaModel<?> model = MetaModel.of(obj.getClass());
@@ -24,15 +26,13 @@ public class ObjectSetter {
 			fields = fields.substring(0, fields.length() - 1); //trims comma
 		}
 		
-//		String sql = "CREATE TABLE IF NOT EXISTS " + model.getSimpleClassName() + " (" + fields + ")";
-		
-		String sql = "CREATE TABLE IF NOT EXISTS public.doggo (id int,name varchar(250),age int)";
+		log.info("Attempting to create table if needed...");
+		//effectively prepares statement but with expandable length 
+		String sql = "CREATE TABLE IF NOT EXISTS " + model.getSimpleClassName() + " (" + fields + ")";
 		
 		System.out.println(sql);
 		
 		boolean success = false;
-		
-		Connection connect = ConnectionUtil.getConnection();
 		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -42,15 +42,10 @@ public class ObjectSetter {
 			System.out.println(success);
 		} catch (SQLException e) {
 			System.out.println("unable to add table");
-			//lo
 			e.printStackTrace();
 		}
 		
 		return success;
-		
-		/**
-		 * changed branch
-		 */
 
 	}
 
