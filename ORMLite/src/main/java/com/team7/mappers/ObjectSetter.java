@@ -4,93 +4,52 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
-
+import com.team7.connection.ConnectionFactory;
 import com.team7.util.ColumnField;
+import com.team7.util.ConnectionUtil;
 import com.team7.util.MetaModel;
 
 public class ObjectSetter {
 
-	private static Logger log = Logger.getLogger(ObjectSetter.class);
-
-	public boolean setObject(Object obj, Connection conn) {
+	public boolean setObject(Object obj, Connection conn){
 		MetaModel<?> model = MetaModel.of(obj.getClass());
 
-		// pk and fields are separated to allow for the insertion component (if we get
-		// generated values working)
-		// this limits us to not be able to use composite keys
-		String primaryKey = model.getPrimaryKey().getColumnName() + " " + model.getPrimaryKey().getSQLType() + " PRIMARY KEY " + ",";
-		String pkName = model.getPrimaryKey().getColumnName() + ",";
-		String pkValue = model.getPrimaryKey().getFieldValue(obj) + ",";
-		String fields = "";
-		String fieldNames = "";
-
-		// COLUMNS SECTION
-		// builds fields and fieldNames
-		for (ColumnField f : model.getColumns()) {
-			fields += f.getColumnName() + " " + f.getSQLType() + ",";
-			fieldNames += f.getColumnName() + ",";
-		}
-
-		// builds values
-		String values = "";
+		String fields = model.getPrimaryKey().getColumnName() + " " + model.getPrimaryKey().getSQLType()+ ",";
 		
 		for (ColumnField f : model.getColumns()) {
-			values += f.getFieldValue(obj) + ",";
+			fields += f.getColumnName() + " " + f.getSQLType() + ",";
 		}
-
-		// TRIMMING (comma removal)
-		// trim fields and fieldNames
+		
 		if (fields.length() > 2) {
-			fields = fields.substring(0, fields.length() - 1);
-			fieldNames = fieldNames.substring(0, fieldNames.length() - 1);
-
-			// trims comma from primary key in case that's all the object has
-		} else {
-			primaryKey = primaryKey.substring(0, primaryKey.length() - 1);
-			pkName = pkName.substring(0, pkName.length() - 1);
+			fields = fields.substring(0, fields.length() - 1); //trims comma
 		}
-
-		// trim values
-		if (values.length() > 2) {
-			values = values.substring(0, values.length() - 1);
-
-			// trims comma from primary key in case that's all the object has
-		} else {
-			pkValue = pkValue.substring(0, pkValue.length() - 1);
-		}
-
-		/*
-		 * CREATING THE SQL
-		 *
-		 * (opting not to use preparedstatement vary command length; less secure because
-		 * of the potential for injection, but this expedites this example)
-		 */
-		log.info("Attempting to create table if needed...");
-		// effectively prepares statement but with expandable length
-		String tableCreate = "CREATE TABLE IF NOT EXISTS " + model.getSimpleClassName() + " (" + primaryKey + fields
-				+ ")";
-
-		String recordInsert = "INSERT INTO " + model.getSimpleClassName() + " (" + pkName + fieldNames + ") VALUES ("
-				+ pkValue + values + ");";
-
+		
+//		String sql = "CREATE TABLE IF NOT EXISTS " + model.getSimpleClassName() + " (" + fields + ")";
+		
+		String sql = "CREATE TABLE IF NOT EXISTS public.doggo (id int,name varchar(250),age int)";
+		
+		System.out.println(sql);
+		
 		boolean success = false;
-
+		
+		Connection connect = ConnectionUtil.getConnection();
+		
 		try {
-			PreparedStatement tblcrt = conn.prepareStatement(tableCreate);
-			PreparedStatement insrt = conn.prepareStatement(recordInsert);
-			log.info("inserting record to table for " + model.getSimpleClassName());
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			System.out.println(stmt);
+			success = stmt.execute(); //may want batch here after adding insert
 			
-			tblcrt.execute();
-			insrt.execute(); // may want batch here
-			
-
+			System.out.println(success);
 		} catch (SQLException e) {
-			log.warn("unable to add record");
+			System.out.println("unable to add table");
 			e.printStackTrace();
 		}
-
+		
 		return success;
+		
+		/**
+		 * changed branch
+		 */
 
 	}
 
