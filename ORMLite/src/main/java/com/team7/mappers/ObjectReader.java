@@ -120,10 +120,14 @@ public class ObjectReader {
 		String sql = "SELECT * FROM " + meta.getTableName() + " WHERE " + meta.getPrimaryKey().getColumnName() + " = " + ki;
 		try
 		{
+			log.info("Creating statement.");
 			Statement stmt = conn.createStatement();
+			log.info("Executing statement: " + sql);
 			ResultSet rs = stmt.executeQuery(sql);
+			log.info("Success.");
 			while(rs.next())
 			{
+				log.info("Creating result set meta data.");
 				ResultSetMetaData rsmeta = rs.getMetaData();
 				for(int i = 1; i <= rsmeta.getColumnCount(); i++)
 				{
