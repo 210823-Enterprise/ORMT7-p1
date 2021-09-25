@@ -54,4 +54,10 @@ Finally, inside your project structure you need a application.proprties file.
       - Indicates that the anotated method is a getter for 'column_name'.  
    - #### @Id(name = "column_name") 
       - Indicates that the annotated field is the primary key for the table.
+   - #### @JoinColumn(name = "column_name")
+      - Indicates that the annotated field is the foreign key column where two table join.
+   - #### @Entity(table_name = "name of the table")
+      - Indicates that the annotated class contains data for a database interaction.
+  ### User API:
+    
 
