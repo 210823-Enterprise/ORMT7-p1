@@ -73,6 +73,8 @@ public class ObjectSetter {
 
 		String recordInsert = "INSERT INTO " + model.getSimpleClassName() + " (" + pkName + fieldNames + ") VALUES ("
 				+ pkValue + values + ");";
+		
+		System.out.println(recordInsert);
 
 		boolean success = false;
 
