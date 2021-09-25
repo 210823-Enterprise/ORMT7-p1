@@ -36,9 +36,9 @@ public class ObjectReader {
 			
 			if (cont.containsKey(yub.getColumnName()) == true) {
 				
-				log.info("Contains key: " + yub.getColumnName());
+				log.info("Contains column: " + yub.getColumnName());
 				
-				sql = sql + " " + yub.getColumnName() + " = '" + cont.get(yub.getColumnName()) + "'";
+				sql = sql + " " + yub.getColumnName() + " = " + (yub.getType().getSimpleName().equals("String") ? "'" + cont.get(yub.getColumnName()) + "'" : cont.get(yub.getColumnName()));
 				
 				if (col < cont.size()) {
 					sql = sql + " AND";
@@ -57,7 +57,7 @@ public class ObjectReader {
 				log.info("Searching through result set.");
 				ResultSetMetaData rsmeta = rs.getMetaData();
 				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
-					System.out.println(rsmeta.getColumnName(i) + ": " + rs.getObject(i));
+					System.out.println(rsmeta.getColumnName(i) + ": " + rs.getObject(i)); //TODO return string map instead
 					log.info("printing object and value.");
 				}
 			}
@@ -71,47 +71,13 @@ public class ObjectReader {
 		return success;
 	}
 
-	public boolean readPrimaryKey(Class<?> obj, Connection conn, Map<String, String> cont) {
-		log.info("Getting data based on primary key.");
-		MetaModel<?> metaknight = MetaModel.of(obj);
-		log.info("Metamodel created.");
-		String sql = "SELECT * FROM " + metaknight.getTableName() + " WHERE "
-				+ metaknight.getPrimaryKey().getColumnName() + " = " + cont.get(metaknight.getPrimaryKey().getName());
-		boolean success = false;
-
-		sql += ";";
-		try {
-			log.info("Executing statement.");
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			success = stmt.execute();
-			log.info(stmt + " successfully executed.");
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				log.info("Getting result set meta data.");
-				ResultSetMetaData rsmeta = rs.getMetaData();
-				log.info("Data obtained.");
-				log.info("Printing columns and values.");
-				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
-					System.out.println(rsmeta.getColumnName(i) + ": " + rs.getObject(i));
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			log.warn("Something happenned." + e);
-		} catch (NullPointerException e) {
-			log.warn("Empty parameter." + e);
-		}
-		log.info("Exiting readPrimaryKey method.");
-		return success;
-	}
-
-	public Map<String, String> getEntry(Class<?> obj, Connection conn, Object ki) {
+	public Map<String, String> getEntryById(Class<?> obj, Connection conn, String id) {
 		log.info("Getting columns of specified primary key.");
 		Map<String, String> ret = new HashMap<String, String>();
 		MetaModel<?> meta = MetaModel.of(obj);
 		log.info("Created meta model.");
 		String sql = "SELECT * FROM " + meta.getTableName() + " WHERE " + meta.getPrimaryKey().getColumnName() + " = "
-				+ ki;
+				+ id;
 		try {
 			log.info("Creating statement.");
 			Statement stmt = conn.createStatement();
