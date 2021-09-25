@@ -39,7 +39,7 @@ public class ConnectionUtil {
 		String password = "";
 		
 		try {
-			prop.load(new FileReader("E:\\revature\\ORMT7-p1\\ORMLite\\src\\main\\resources\\new.properties"));
+			prop.load(new FileReader("C:\\Users\\zodia\\Documents\\GitHub\\ORMT7-p1\\ORMLite\\src\\main\\resources\\new.properties"));
 			url = prop.getProperty("url");
 			username = prop.getProperty("username");
 			password = prop.getProperty("password");

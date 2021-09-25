@@ -1,12 +1,8 @@
 package com.team7.mappers;
 
 import java.sql.Connection;
-import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 
@@ -95,6 +91,7 @@ public class ObjectSetter {
 		}
 
 		return success;
+
 	}
-	
+
 }
