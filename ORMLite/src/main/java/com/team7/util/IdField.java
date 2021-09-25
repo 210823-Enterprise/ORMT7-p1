@@ -27,6 +27,17 @@ public class IdField {
 	public String getColumnName() {
 		return field.getAnnotation(Id.class).columnName();
 	}
+	
+	public String getFieldValue(Object o) {
+		try {
+			field.setAccessible(true);
+			return field.get(o).toString();
+		} catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			// TODO logs
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	// TODO make this inherited or from util class (try to only write it once)
 	public String getSQLType() {
