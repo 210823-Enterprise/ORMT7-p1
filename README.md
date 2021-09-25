@@ -21,4 +21,18 @@ Project 1 repo for team 7
   * Ability to create files with custom tables based on input parameters.
   * Minimize calls to database by removing possible repeats.
 ## Getting Started:
-  * 
+Currently project must be included as local dependency. to do so:
+```shell
+  git clone https://github.com/210517-Enterprise/*your-repo*_p1.git
+  cd *your-repo*_p1
+  mvn install
+```
+Next, place the following inside your project pom.xml file:
+```XML
+  <dependency>
+    <groupId>com.revature</groupId>
+    <artifactId>*your-repo*_p1</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </dependency>
+
+```
