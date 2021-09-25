@@ -20,6 +20,7 @@ public class MetaModel<T> {
 	private IdField primarykeyField;
 	private List<ColumnField> columnFields;
 	private List<ForeignKeyField> foreignKeyFields;
+	private boolean columnsSet = false;
 	
 	// of() method to take in a class and transform it to a meta model
 	public static <T> MetaModel<T> of(Class<T> clazz) {
@@ -33,7 +34,7 @@ public class MetaModel<T> {
 	
 	public MetaModel(Class<T> clazz) {
 		this.clazz = clazz;
-		this.columnFields = new LinkedList<>(); //altered to fill columns (may not work, TODO test it)
+		this.columnFields = new LinkedList<>();
 	}
 
 	public MetaModel(Class<T> clazz, IdField primarykeyField, List<ColumnField> columnFields,
@@ -55,7 +56,6 @@ public class MetaModel<T> {
 		return clazz.getName();
 	}
 	
-	
 	// simple class name is just MyClass
 	public String getSimpleClassName() {
 		return clazz.getSimpleName();
@@ -73,21 +73,32 @@ public class MetaModel<T> {
         throw new RuntimeException("Did not find a field annotated with @Id in: " + clazz.getName());
     }
 
+    private void setColumns() {
+    	 Field[] fields = clazz.getDeclaredFields();
+         for (Field field : fields) {
+             Column column = field.getAnnotation(Column.class);
+             if (column != null) {
+                 columnFields.add(new ColumnField(field));
+             }
+         }
+         columnsSet = true; 
+	}
+    
     public List<ColumnField> getColumns() {
-
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            Column column = field.getAnnotation(Column.class);
-            if (column != null) {
-                columnFields.add(new ColumnField(field));
-            }
-        }
+    	
+    	if(!columnsSet) setColumns();
 
         if (columnFields.isEmpty()) {
             throw new RuntimeException("No columns found in: " + clazz.getName());
         }
 
         return columnFields;
+    }
+    
+	public String getTableName()
+    {
+        Entity table = this.clazz.getAnnotation(Entity.class);
+        return table.tableName();
     }
 
     public List<ForeignKeyField> getForeignKeys() {
