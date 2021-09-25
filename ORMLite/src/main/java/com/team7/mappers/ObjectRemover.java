@@ -12,7 +12,7 @@ public class ObjectRemover {
 	public static boolean deleteObject(Object obj, Connection conn){
 		MetaModel<?> model = MetaModel.of(obj.getClass());
 		
-		String sql = "DELETE FROM " + model.getClassName() + " WHERE " + model.getPrimaryKey().getColumnName() + "=" + model.getPrimaryKey();
+		String sql = "DELETE FROM " + model.getClassName() + " WHERE " + model.getPrimaryKey().getColumnName() + "= ?";
 		System.out.println(sql);
 		
 		boolean success = false;
@@ -20,6 +20,7 @@ public class ObjectRemover {
 		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, model.getPrimaryKey().toString());
 			System.out.println(stmt);
 			success = stmt.execute();
 			
