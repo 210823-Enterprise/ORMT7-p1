@@ -6,10 +6,6 @@ import com.team7.annotations.Column;
 
 public class ColumnField {
 
-//	@Column
-	// private String name; (// how do I determine if this is a VARCHAR or NUMERIC
-	// or SERIAL PRIMARY KEY?
-
 	private Field field;
 
 	public ColumnField(Field field) {
@@ -19,6 +15,7 @@ public class ColumnField {
 			// then it returns null
 			throw new IllegalStateException(
 					"Cannot create ColumnField Object! Provided field " + getName() + " is not annotated with @Column");
+			//TODO loggers
 		}
 
 		this.field = field;
@@ -46,7 +43,7 @@ public class ColumnField {
 		switch (type) {
 		case "int":
 		case "Integer":
-			retVal = "int";
+			retVal = "integer";
 			break;
 		case "String":
 			retVal = "varchar(250)";
@@ -56,6 +53,23 @@ public class ColumnField {
 		}
 		
 		return retVal;
+	}
+	
+	public String getFieldValue(Object o) {
+		try {
+			field.setAccessible(true);
+			//surround with single quotes for varchar
+			return (field.getType().getSimpleName().equals("String") ? "'" + field.get(o).toString() + "'" : field.get(o).toString());
+		} catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			// TODO logs
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "ColumnField [field=" + field.toGenericString() + "]";
 	}
 
 }
