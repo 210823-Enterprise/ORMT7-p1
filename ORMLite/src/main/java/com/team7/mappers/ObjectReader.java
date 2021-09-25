@@ -12,7 +12,6 @@ import java.util.Map;
 
 import com.team7.util.ColumnField;
 import com.team7.util.MetaModel;
-@Getter(name = "getter")
 public class ObjectReader {
 	public ObjectReader()
 	{
