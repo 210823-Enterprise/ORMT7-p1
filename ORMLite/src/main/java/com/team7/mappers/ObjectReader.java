@@ -19,7 +19,7 @@ public class ObjectReader {
 	{
 		super();
 	}
-	public boolean readFromDb(Class<?> obj, Connection conn)
+	public boolean readFromDb(Class<?> obj, Connection conn, Map<String, String> cont)
 	{
 		MetaModel<?> metaknight = MetaModel.of(obj);
 		String sql = "SELECT * FROM " + metaknight.getTableName() + " WHERE";
@@ -28,12 +28,14 @@ public class ObjectReader {
 		List<ColumnField> parthenon = metaknight.getColumns();
 		for(ColumnField yub : parthenon)
 		{
-			sql = sql + " " + yub.getColumnName() + " = " + yub.getName();
-			if(col < parthenon.size())
+			if(cont.containsKey(yub.getColumnName()) == true)
 			{
-				sql = sql + " AND";
+				sql = sql + " " + yub.getColumnName() + " = '" + cont.get(yub.getColumnName()) + "'";
+				if(col < cont.size())
+				{
+					sql = sql + " AND";
+				}
 			}
-			System.out.println(sql);
 			col++;
 		}
 		sql += ";";
@@ -44,7 +46,6 @@ public class ObjectReader {
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
 			{
-				System.out.println("yub");
 				ResultSetMetaData rsmeta = rs.getMetaData();
 				for(int i = 1; i <= rsmeta.getColumnCount(); i++)
 				{
@@ -58,11 +59,11 @@ public class ObjectReader {
 		}
 		return success;
 	}
-	public boolean readPrimaryKey(Class<?> obj, Connection conn)
+	public boolean readPrimaryKey(Class<?> obj, Connection conn, Map<String, String> cont)
 	{
 		MetaModel<?> metaknight = MetaModel.of(obj);
 		String sql = "SELECT * FROM " + metaknight.getTableName() + " WHERE " + metaknight.getPrimaryKey().getColumnName() +
-				" = " + metaknight.getTableName();
+				" = " + cont.get(metaknight.getPrimaryKey().getName());
 		boolean success = false;
 		
 		sql += ";";
@@ -89,7 +90,7 @@ public class ObjectReader {
 	}
 	public Map<String, String> getEntry(Class<?> obj, Connection conn, int ki)
 	{
-		Map<String, String> ret = new HashMap();
+		Map<String, String> ret = new HashMap<String, String>();
 		MetaModel<?> meta = MetaModel.of(obj);
 		String sql = "SELECT * FROM " + meta.getTableName() + " WHERE " + meta.getPrimaryKey().getColumnName() + " = " + ki;
 		try

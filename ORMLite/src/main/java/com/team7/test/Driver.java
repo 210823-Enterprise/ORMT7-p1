@@ -26,7 +26,10 @@ public class Driver {
 		{
 			System.out.println(val.get(c.getColumnName()));
 		}
-		read.readPrimaryKey(Testr.class, conn);
+		read.readPrimaryKey(Testr.class, conn, val);
+		val = new HashMap();
+		val.put("test_username", "noah");
+		read.readFromDb(Testr.class, conn, val);
 	}
 	
 }
