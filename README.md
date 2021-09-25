@@ -23,16 +23,16 @@ Project 1 repo for team 7
 ## Getting Started:
 Currently project must be included as local dependency. to do so:
 ```shell
-  git clone https://github.com/210517-Enterprise/*your-repo*_p1.git
-  cd *your-repo*_p1
+  git clone https://github.com/210823-Enterprise/ORMT7-p1.git
+  cd ORMT7-p1
   mvn install
 ```
 Next, place the following inside your project pom.xml file:
 ```XML
   <dependency>
-    <groupId>com.revature</groupId>
-    <artifactId>*your-repo*_p1</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.team7</groupId>
+    <artifactId>ORMT7-p1</artifactId>
+    <version>0.0.1</version>
   </dependency>
 
 ```
