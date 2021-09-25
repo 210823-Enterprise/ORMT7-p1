@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.team7.connection.ConnectionFactory;
 import com.team7.util.ColumnField;
 import com.team7.util.ConnectionUtil;
 import com.team7.util.MetaModel;
