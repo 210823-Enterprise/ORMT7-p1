@@ -24,15 +24,15 @@ Project 1 repo for team 7
 Currently project must be included as local dependency. to do so:
 ```shell
   git clone https://github.com/210823-Enterprise/ORMT7-p1.git
-  cd ORMT7-p1
+  cd ORMT7-p1/ORMLite
   mvn install
 ```
 Next, place the following inside your project pom.xml file:
 ```XML
   <dependency>
     <groupId>com.team7</groupId>
-    <artifactId>ORMT7-p1</artifactId>
-    <version>0.0.1</version>
+    <artifactId>ORMLite</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
   </dependency>
 
 ```
