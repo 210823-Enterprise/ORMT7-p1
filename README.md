@@ -46,13 +46,12 @@ Finally, inside your project structure you need a application.proprties file.
 ## Usage
   ### Annotating Classes:
      All classes which represent objects in database must be annotated.
-   - #### @Column(name = "column_name)  
+   - #### @Column(name = "column_name")  
       - Indicates that the Annotated field is a column in the table with the name 'column_name'  
    - #### @Setter(name = "column_name")  
       - Indicates that the anotated method is a setter for 'column_name'.  
    - #### @Getter(name = "column_name")  
       - Indicates that the anotated method is a getter for 'column_name'.  
-   - #### @PrimaryKey(name = "column_name") 
+   - #### @Id(name = "column_name") 
       - Indicates that the annotated field is the primary key for the table.
-   - #### @SerialKey(name = "column_name") 
-      - Indicates that the annotated field is a serial key.
+
