@@ -19,7 +19,7 @@ public class ObjectSetter {
 		// pk and fields are separated to allow for the insertion component (if we get
 		// generated values working)
 		// this limits us to not be able to use composite keys
-		String primaryKey = model.getPrimaryKey().getColumnName() + " " + model.getPrimaryKey().getSQLType() + ",";
+		String primaryKey = model.getPrimaryKey().getColumnName() + " " + model.getPrimaryKey().getSQLType() + " PRIMARY KEY " + ",";
 		String pkName = model.getPrimaryKey().getColumnName() + ",";
 		String pkValue = model.getPrimaryKey().getFieldValue(obj) + ",";
 		String fields = "";
@@ -73,8 +73,6 @@ public class ObjectSetter {
 
 		String recordInsert = "INSERT INTO " + model.getSimpleClassName() + " (" + pkName + fieldNames + ") VALUES ("
 				+ pkValue + values + ");";
-		
-		System.out.println(recordInsert);
 
 		boolean success = false;
 
@@ -84,7 +82,7 @@ public class ObjectSetter {
 			log.info("inserting record to table for " + model.getSimpleClassName());
 			
 			tblcrt.execute();
-			insrt.execute(); // may want batch here after adding insert
+			insrt.execute(); // may want batch here
 			
 
 		} catch (SQLException e) {

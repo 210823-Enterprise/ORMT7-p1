@@ -56,7 +56,6 @@ public class MetaModel<T> {
 		return clazz.getName();
 	}
 	
-	
 	// simple class name is just MyClass
 	public String getSimpleClassName() {
 		return clazz.getSimpleName();
@@ -94,6 +93,12 @@ public class MetaModel<T> {
         }
 
         return columnFields;
+    }
+    
+	public String getTableName()
+    {
+        Entity table = this.clazz.getAnnotation(Entity.class);
+        return table.tableName();
     }
 
     public List<ForeignKeyField> getForeignKeys() {
