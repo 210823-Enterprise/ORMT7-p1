@@ -1,6 +1,7 @@
 package com.team7.mappers;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
@@ -17,5 +18,12 @@ public class ObjectUpdater {
 		
 		//update tableName to object values where pk in table == pk in object
 		
+		
+		
+		try {
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+		}
 	}
 }
