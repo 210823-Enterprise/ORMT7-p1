@@ -61,8 +61,8 @@ public class ConnectionUtil {
 			log.error("cannot establish database connection");
 			return null;
 		}
-		return conn;
 		log.info("Exiting getConnection method.");
+		return conn;
 	}
 	
 	public static void main(String[] args) {
