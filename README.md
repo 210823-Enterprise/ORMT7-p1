@@ -59,5 +59,6 @@ Finally, inside your project structure you need a application.proprties file.
    - #### @Entity(table_name = "name of the table")
       - Indicates that the annotated class contains data for a database interaction.
   ### User API:
-    
+   - #### public Map<String, Map<String, String>> readFromDb(Class<?> obj, Connection conn, Map<String, String> cont)
+      - Reads the database from obj using conn and returns a Map containing all of the values found with those parameters.
 
