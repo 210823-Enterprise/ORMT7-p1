@@ -2,15 +2,15 @@ package com.team7.util;
 
 import java.lang.reflect.Field;
 
-import com.team7.annotations.JoinColumn;
+import com.team7.annotations.Foreign;
 
 public class ForeignKeyField {
 
     private Field field;
 
     public ForeignKeyField(Field field) {
-        if (field.getAnnotation(JoinColumn.class) == null) {
-            throw new IllegalStateException("Cannot create ForeignKeyField object! Provided field, " + getName() + "is not annotated with @JoinColumn");
+        if (field.getAnnotation(Foreign.class) == null) {
+            throw new IllegalStateException("Cannot create ForeignKeyField object! Provided field, " + getName() + "is not annotated with @Foreign");
         }
         this.field = field;
     }
@@ -24,8 +24,12 @@ public class ForeignKeyField {
     }
 
     public String getColumnName() {
-        return field.getAnnotation(JoinColumn.class).columnName();
+        return field.getAnnotation(Foreign.class).columnName();
     }
+    
+	public String getReferenceTable() {
+		return field.getAnnotation(Foreign.class).reference();
+	}
 
 	//TODO make this inherited or from util class (try to only write it once)
 	public String getSQLType() {
