@@ -20,6 +20,7 @@ public class MetaModel<T> {
 	private IdField primarykeyField;
 	private List<ColumnField> columnFields;
 	private List<ForeignKeyField> foreignKeyFields;
+	private boolean columnsSet = false;
 	
 	// of() method to take in a class and transform it to a meta model
 	public static <T> MetaModel<T> of(Class<T> clazz) {
@@ -79,15 +80,21 @@ public class MetaModel<T> {
         throw new RuntimeException("Did not find a field annotated with @Id in: " + clazz.getName());
     }
 
-    public List<ColumnField> getColumns() {
-
-        Field[] fields = clazz.getDeclaredFields();
+    private void setColumns() {
+    	Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             Column column = field.getAnnotation(Column.class);
             if (column != null) {
                 columnFields.add(new ColumnField(field));
             }
         }
+        
+        columnsSet = true;
+    }
+    
+    public List<ColumnField> getColumns() {
+
+        if (!columnsSet) setColumns();
 
         if (columnFields.isEmpty()) {
             throw new RuntimeException("No columns found in: " + clazz.getName());
