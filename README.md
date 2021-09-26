@@ -1,4 +1,5 @@
 # ORMT7-p1
+Created by: Noah Gaston,
 
 ## Description:
   This ORM uses CRUD methods created in java to interact with a database without the hassle of SQL or connection management.
