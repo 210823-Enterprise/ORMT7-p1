@@ -74,23 +74,22 @@ public class ObjectSetter {
 		String recordInsert = "INSERT INTO " + model.getSimpleClassName() + " (" + pkName + fieldNames + ") VALUES ("
 				+ pkValue + values + ");";
 
-		boolean success = false;
-
 		try {
 			PreparedStatement tblcrt = conn.prepareStatement(tableCreate);
 			PreparedStatement insrt = conn.prepareStatement(recordInsert);
 			log.info("inserting record to table for " + model.getSimpleClassName());
 			
-			tblcrt.execute();
-			insrt.execute(); // may want batch here
+			tblcrt.executeUpdate();
+			insrt.executeUpdate(); 
 			
 
 		} catch (SQLException e) {
 			log.warn("unable to add record");
-			e.printStackTrace();
+			
+			return false;
 		}
 
-		return success; //TODO suvvess 
+		return true; 
 
 	}
 
