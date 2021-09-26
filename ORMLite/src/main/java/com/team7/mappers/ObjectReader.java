@@ -101,4 +101,35 @@ public class ObjectReader {
 		log.info("Exiting getEntry method.");
 		return ret;
 	}
+	
+	public Map<String, String> getAll(Class<?> obj, Connection conn)
+	{
+		log.info("Starting getAll method, Creating meta model.");
+		MetaModel<?> metaknight = MetaModel.of(obj);
+		String sql = "SELECT * FROM " + metaknight.getTableName();
+		Map<String, String> ret = new HashMap<String, String>();
+		try
+		{
+			log.info("Creating statement.");
+			Statement stmt = conn.createStatement();
+			log.info("Executing statement: " + sql);
+			ResultSet rs = stmt.executeQuery(sql);
+			log.info("Success.");
+			while (rs.next()) {
+				log.info("Getting result set meta data.");
+				ResultSetMetaData rsmeta = rs.getMetaData();
+				log.info("Success, assigning values to map.");
+				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
+					ret.put(rsmeta.getColumnName(i), rs.getString(rsmeta.getColumnName(i)));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.warn("Something went rong, and I'm noot talking about the spelling of the word." + e);
+		} catch (NullPointerException e) {
+			log.warn("There is nothing there. " + e);
+		}
+		log.info("Exiting getAll method.");
+		return ret;
+	}
 }

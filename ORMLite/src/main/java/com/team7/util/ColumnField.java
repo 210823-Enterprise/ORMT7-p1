@@ -71,5 +71,4 @@ public class ColumnField {
 	public String toString() {
 		return "ColumnField [field=" + field.toGenericString() + "]";
 	}
-
 }
