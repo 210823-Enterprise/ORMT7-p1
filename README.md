@@ -17,6 +17,9 @@ Created by: Noah Gaston,
 ## To Do:
   * Create transactions so that databases can be roled back, preventing users from having to manually undo the changes they made.
   * Ability to create files with custom tables based on input parameters.
+  * Come up with a better name than ORMT7-p1.
+  * Object cacheing.
+  * Connection pooling.
 ## Getting Started:
 Currently project must be included as local dependency. to do so:
 ```shell
@@ -36,9 +39,9 @@ Next, place the following inside your project pom.xml file:
 Finally, inside your project structure you need a application.proprties file. 
  (typically located src/main/resources/)
  ``` 
-  url=path/to/database
-  admin-usr=username/of/database
-  admin-pw=password/of/database  
+  url=path to database
+  username=username of database
+  password=password of database  
   ```
 ## Usage
   ### Annotating Classes:
@@ -49,6 +52,8 @@ Finally, inside your project structure you need a application.proprties file.
       - Indicates that the annotated field is the primary key for the table.
    - #### @Entity(table_name = "name of the table")
       - Indicates that the annotated class contains data for a database interaction.
+   - #### @JoinColumn(name = "column_name")
+      - Indicates that the annotated class contains data for a column that joins two tables.
   ### User API:
    - #### public Map<Integer, Map<String, String>> readFromDb(Class<?> obj, Connection conn, Map<String, String> cont)
       - Reads the database from obj using conn and returns a Map containing all of the values found with those parameters.
