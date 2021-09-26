@@ -17,7 +17,6 @@ public class ConnectionUtil {
 
 	// we want a private constructor
 	private ConnectionUtil() {
-		log.info("Creating constructor.");
 		super();
 	}
 
