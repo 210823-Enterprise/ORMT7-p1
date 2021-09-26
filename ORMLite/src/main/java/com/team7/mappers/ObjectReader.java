@@ -18,13 +18,15 @@ public class ObjectReader {
 
 	private static Logger log = Logger.getLogger(ObjectReader.class);
 
-	public Map<String, String> readFromDb(Class<?> obj, Connection conn, Map<String, String> cont) {
+	public boolean readFromDb(Class<?> obj, Connection conn, Map<String, String> cont) {
 		
 		log.info("Searching based on input parameters.");
-		Map<String, String> ret = new HashMap();
+		
 		MetaModel<?> metaknight = MetaModel.of(obj);
 		
 		String sql = "SELECT * FROM " + metaknight.getTableName() + " WHERE";
+		
+		boolean success = false;
 		
 		int col = 1;
 		
@@ -55,7 +57,7 @@ public class ObjectReader {
 				log.info("Searching through result set.");
 				ResultSetMetaData rsmeta = rs.getMetaData();
 				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
-					ret.pu(rsmeta.getColumnName(i), rs.getObject(i)); //TODO return string map instead
+					System.out.println(rsmeta.getColumnName(i) + ": " + rs.getObject(i)); //TODO return string map instead
 					log.info("printing object and value.");
 				}
 			}
@@ -66,7 +68,7 @@ public class ObjectReader {
 			log.warn("Out of bounds. " + e);
 		}
 		log.info("ending readFromDb method.");
-		return ret;
+		return success;
 	}
 
 	public Map<String, String> getEntryById(Class<?> obj, Connection conn, String id) {
@@ -97,36 +99,6 @@ public class ObjectReader {
 			log.warn("There is nothing there. " + e);
 		}
 		log.info("Exiting getEntry method.");
-		return ret;
-	}
-	public Map<String, String> getAll(Class<?> obj, Connection conn)
-	{
-		log.info("Starting getAll method, Creating meta model.");
-		MetaModel<?> metaknight = MotaModel.of(obj);
-		String sql = "SELECT * FROM " + metaknight.getTableName();
-		Map<String, String> ret = new HashMap();
-		try
-		{
-			log.info("Creating statement.");
-			Statement stmt = conn.createStatement();
-			log.info("Executing statement: " + sql);
-			ResultSet rs = stmt.executeQuery(sql);
-			log.info("Success.");
-			while (rs.next()) {
-				log.info("Getting result set meta data.");
-				ResultSetMetaData rsmeta = rs.getMetaData();
-				log.info("Success, assigning values to map.");
-				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
-					ret.put(rsmeta.getColumnName(i), rs.getString(rsmeta.getColumnName(i)));
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			log.warn("Something went rong, and I'm noot talking about the spelling of the word." + e);
-		} catch (NullPointerException e) {
-			log.warn("There is nothing there. " + e);
-		}
-		log.info("Exiting getAll method.");
 		return ret;
 	}
 }
