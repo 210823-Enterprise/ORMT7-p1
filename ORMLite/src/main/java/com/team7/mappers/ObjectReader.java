@@ -18,7 +18,8 @@ public class ObjectReader {
 
 	private static Logger log = Logger.getLogger(ObjectReader.class);
 
-	public Map<String, String> readFromDb(Class<?> obj, Connection conn, Map<String, String> cont) {
+	public Map<String, String> readFromDb(Class<?> obj, Connection conn, Map<String, String> cont) { 
+		//Need to change return so that it will return Map<String, Map<STring, String>> so it can return values from more than one column.
 		
 		log.info("Searching based on input parameters.");
 		Map<String, String> ret = new HashMap();
