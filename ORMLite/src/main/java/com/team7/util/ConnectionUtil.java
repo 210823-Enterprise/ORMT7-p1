@@ -17,8 +17,9 @@ public class ConnectionUtil {
 
 	// we want a private constructor
 	private ConnectionUtil() {
-		log.info("Creating constructor.");
 		super();
+		log.info("Creating constructor.");
+		
 	}
 
 	//static to persist the connection
@@ -44,7 +45,7 @@ public class ConnectionUtil {
 			log.info("Attempting to load properties file.");
 			String currentPath = System.getProperty("user.dir"); //Could possibly get the needed path automatically, needs further testing.
 			currentPath = currentPath + "\\src\\main\\resources\\new.properties";
-			prop.load(new FileReader("C:\\Users\\zodia\\Documents\\GitHub\\ORMT7-p1\\ORMLite\\src\\main\\resources\\new.properties"));
+			prop.load(new FileReader("src\\main\\resources\\new.properties"));
 			log.info("Getting url.");
 			url = prop.getProperty("url");
 			log.info("Getting username.");
@@ -64,8 +65,8 @@ public class ConnectionUtil {
 			log.error("cannot establish database connection");
 			return null;
 		}
-		return conn;
 		log.info("Exiting getConnection method.");
+		return conn;
 	}
 	
 	public static void main(String[] args) {
