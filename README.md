@@ -73,6 +73,10 @@ Finally, inside your project structure you need a application.proprties file.
       - Constructor that creates metamodel with the input parameters.
    - #### public void setColumns()
       - Goes through all annotated fields and sets the ones annotated to column into a list.
+   - #### public boolean updateObjectByPrimaryKey(Object obj, Connection conn)
+      - Updates a table using the signature of the object's primary key to update the remaining fields into the database
+   - #### public boolean setObject(Object obj, Connection conn)
+      - Takes an annotated object and commits it to a table. Creates a new table if one does not already exist. An empty object with the correct Entity annotation will create only an empty table.
    - #### public boolean deleteObject(Object obj, Connection conn)
       - Deletes an object from a table with the primary key and table pulled from the object
    - #### public boolean deleteObject(Object obj, Connection conn, Map<String,String> sqlWhere)
