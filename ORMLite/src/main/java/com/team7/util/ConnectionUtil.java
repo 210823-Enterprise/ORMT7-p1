@@ -43,9 +43,7 @@ public class ConnectionUtil {
 		
 		try {
 			log.info("Attempting to load properties file.");
-			String currentPath = System.getProperty("user.dir"); //Could possibly get the needed path automatically, needs further testing.
-			currentPath = currentPath + "\\src\\main\\resources\\new.properties";
-			prop.load(new FileReader("src\\main\\resources\\new.properties"));
+			prop.load(new FileReader("\\src\\main\\resources\\new.properties"));
 			log.info("Getting url.");
 			url = prop.getProperty("url");
 			log.info("Getting username.");
@@ -54,7 +52,6 @@ public class ConnectionUtil {
 			password = prop.getProperty("password");
 			log.info("Connectiong to driver.");
 			conn = DriverManager.getConnection(url, username, password);
-			System.out.println("SUCCESS!!!!!");
 			log.info("db connection established");
 		} catch (IOException e) {
 			System.out.println("CAN'T FIND FILE");
