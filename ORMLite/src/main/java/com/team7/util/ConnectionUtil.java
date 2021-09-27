@@ -53,11 +53,9 @@ public class ConnectionUtil {
 			conn = DriverManager.getConnection(url, username, password);
 			log.info("db connection established");
 		} catch (IOException e) {
-			System.out.println("CAN'T FIND FILE");
 			log.error("cannot locate application.properties file");
 			e.printStackTrace();
 		} catch (SQLException e) {
-			System.out.println("SQL EXCPEITON");
 			log.error("cannot establish database connection");
 			return null;
 		}

@@ -12,19 +12,20 @@ import java.util.List;
 import java.util.Map;
 
 import com.team7.util.ColumnField;
+import com.team7.util.ForeignKeyField;
 import com.team7.util.MetaModel;
 
 public class ObjectReader {
 
 	private static Logger log = Logger.getLogger(ObjectReader.class);
 
-	public Map<String, String> readFromDb(Class<?> obj, Connection conn, Map<String, String> cont) { 
+	public Map<String, Map<String, String>> readFromDb(Class<?> obj, Connection conn, Map<String, String> cont) { 
 		//Need to change return so that it will return Map<String, Map<STring, String>> so it can return values from more than one column.
 		
 		log.info("Searching based on input parameters.");
-		Map<String, String> ret = new HashMap();
+		Map<String, String> ret = new HashMap<String, String>();
+		Map<String, Map<String, String>> multi = new HashMap<String, Map<String, String>>();
 		MetaModel<?> metaknight = MetaModel.of(obj);
-		
 		String sql = "SELECT * FROM " + metaknight.getTableName() + " WHERE";
 		
 		int col = 1;
@@ -45,20 +46,40 @@ public class ObjectReader {
 			}
 			col++;
 		}
+		List<ForeignKeyField> japan = metaknight.getForeignKeys();
+		for(ForeignKeyField canada : japan)
+		{
+			if(cont.containsKey(canada.getColumnName()) == true)
+			{
+				log.info("Contains foreign key: " + canada.getColumnName());
+				sql = sql + " " + canada.getColumnName() + " = " + (canada.getType().getSimpleName().equals("String") ? "'" + cont.get(canada.getColumnName()) + "'"  : cont.get(canada.getColumnName()));
+				if(col < cont.size())
+				{
+					sql = sql + " AND";
+				}
+			}
+			col++;
+		}
+		if(cont.containsKey(metaknight.getPrimaryKey().getName()))
+		{
+			sql = sql + " " + metaknight.getPrimaryKey().getName() + " = " + (metaknight.getPrimaryKey().getType().getSimpleName().equals("String") ? "'" + cont.get(metaknight.getPrimaryKey().getName()) + "'" : cont.get(metaknight.getPrimaryKey().getName()));
+		}
 		sql += ";";
+		System.out.println(sql);
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			log.info("Attempting to execute statement.");
-			success = stmt.execute();
 			log.info("Success");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				log.info("Searching through result set.");
 				ResultSetMetaData rsmeta = rs.getMetaData();
 				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
-					ret.pu(rsmeta.getColumnName(i), rs.getObject(i)); //TODO return string map instead
+					ret.put(rsmeta.getColumnName(i), rs.getString(rsmeta.getColumnName(i)));
 					log.info("printing object and value.");
 				}
+				System.out.println(metaknight.getPrimaryKey().getColumnName());
+				multi.put(metaknight.getPrimaryKey().getColumnName(), ret);
 			}
 		} catch (SQLException e) {
 			log.warn("Failed to deal with prepared statement.");
@@ -67,12 +88,13 @@ public class ObjectReader {
 			log.warn("Out of bounds. " + e);
 		}
 		log.info("ending readFromDb method.");
-		return ret;
+		return multi;
 	}
 
-	public Map<String, String> getEntryById(Class<?> obj, Connection conn, String id) {
+	public Map<String, Map<String, String>> getEntryById(Class<?> obj, Connection conn, String id) {
 		log.info("Getting columns of specified primary key.");
 		Map<String, String> ret = new HashMap<String, String>();
+		Map<String, Map<String, String>> multi = new HashMap<String, Map<String, String>>();
 		MetaModel<?> meta = MetaModel.of(obj);
 		log.info("Created meta model.");
 		String sql = "SELECT * FROM " + meta.getTableName() + " WHERE " + meta.getPrimaryKey().getColumnName() + " = "
@@ -90,6 +112,7 @@ public class ObjectReader {
 				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
 					ret.put(rsmeta.getColumnName(i), rs.getString(rsmeta.getColumnName(i)));
 				}
+				multi.put(ret.get(meta.getPrimaryKey().getColumnName()), ret);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,14 +121,15 @@ public class ObjectReader {
 			log.warn("There is nothing there. " + e);
 		}
 		log.info("Exiting getEntry method.");
-		return ret;
+		return multi;
 	}
-	public Map<String, String> getAll(Class<?> obj, Connection conn)
+	public Map<String, Map<String, String>> getAll(Class<?> obj, Connection conn)
 	{
 		log.info("Starting getAll method, Creating meta model.");
-		MetaModel<?> metaknight = MotaModel.of(obj);
+		MetaModel<?> metaknight = MetaModel.of(obj);
 		String sql = "SELECT * FROM " + metaknight.getTableName();
-		Map<String, String> ret = new HashMap();
+		Map<String, String> ret = new HashMap<String, String>();
+		Map<String, Map<String, String>> multi = new HashMap<String, Map<String, String>>();
 		try
 		{
 			log.info("Creating statement.");
@@ -120,6 +144,7 @@ public class ObjectReader {
 				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
 					ret.put(rsmeta.getColumnName(i), rs.getString(rsmeta.getColumnName(i)));
 				}
+				multi.put(ret.get(metaknight.getPrimaryKey().getColumnName()), ret);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -128,6 +153,6 @@ public class ObjectReader {
 			log.warn("There is nothing there. " + e);
 		}
 		log.info("Exiting getAll method.");
-		return ret;
+		return multi;
 	}
 }
