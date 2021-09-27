@@ -62,9 +62,9 @@ public class ObjectReader {
 			}
 			col++;
 		}
-		if(cont.containsKey(metaknight.getPrimaryKey().getName()))
+		if(cont.containsKey(metaknight.getPrimaryKey().getColumnName()))
 		{
-			sql = sql + " " + metaknight.getPrimaryKey().getName() + " = " + (metaknight.getPrimaryKey().getType().getSimpleName().equals("String") ? "'" + cont.get(metaknight.getPrimaryKey().getName()) + "'" : cont.get(metaknight.getPrimaryKey().getName()));
+			sql = sql + " " + metaknight.getPrimaryKey().getColumnName() + " = " + (metaknight.getPrimaryKey().getType().getSimpleName().equals("String") ? "'" + cont.get(metaknight.getPrimaryKey().getName()) + "'" : cont.get(metaknight.getPrimaryKey().getName()));
 		}
 		sql += ";";
 		try {
@@ -128,7 +128,6 @@ public class ObjectReader {
 		log.info("Starting getAll method, Creating meta model.");
 		MetaModel<?> metaknight = MetaModel.of(obj);
 		String sql = "SELECT * FROM " + metaknight.getTableName();
-		Map<String, String> ret = new HashMap<String, String>();
 		Map<String, Map<String, String>> multi = new HashMap<String, Map<String, String>>();
 		int count = 0;
 		try
@@ -139,6 +138,7 @@ public class ObjectReader {
 			ResultSet rs = stmt.executeQuery(sql);
 			log.info("Success.");
 			while (rs.next()) {
+				Map<String, String> ret = new HashMap<String, String>();
 				log.info("Getting result set meta data.");
 				ResultSetMetaData rsmeta = rs.getMetaData();
 				log.info("Success, assigning values to map.");
