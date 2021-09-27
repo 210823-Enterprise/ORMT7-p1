@@ -42,7 +42,8 @@ public class ConnectionUtil {
 		
 		try {
 			log.info("Attempting to load properties file.");
-			prop.load(new FileReader("\\src\\main\\resources\\new.properties"));
+			prop.load(new FileReader("src\\main\\resources\\new.properties"));
+			
 			log.info("Getting url.");
 			url = prop.getProperty("url");
 			log.info("Getting username.");
