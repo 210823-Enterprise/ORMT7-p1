@@ -1,0 +1,14 @@
+package com.team7.annotations;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Foreign {
+	String columnName();
+	String reference(); //the referenced table
+	String referencedKey(); //the key in the table you are referencing
+}
