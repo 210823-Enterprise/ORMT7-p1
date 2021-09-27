@@ -1,4 +1,4 @@
-# ORMT7-p1
+# ORMLite
 Created by: Noah Gaston, Casey Spencer, Rashid Taleb
 
 ## Description:
