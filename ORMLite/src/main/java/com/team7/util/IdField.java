@@ -31,7 +31,7 @@ public class IdField {
 	public String getFieldValue(Object o) {
 		try {
 			field.setAccessible(true);
-			return field.get(o).toString();
+			return (field.getType().getSimpleName().equals("String") ? "'" + field.get(o).toString() + "'" : field.get(o).toString());
 		} catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
 			// TODO logs
 			e.printStackTrace();
@@ -45,16 +45,37 @@ public class IdField {
 
 		String retVal; // return type string
 		switch (type) {
-		case "int":
-		case "Integer":
-			retVal = "int";
-			break;
-		case "String":
-			retVal = "varchar(250)";
-			break;
-		default:
-			retVal = "varchar(10)"; // type not found TODO put log here
-		}
+        case "byte":
+        case "Byte":
+        case "short":
+        case "Short":
+        case "int":
+        case "Integer":
+            retVal = "integer";
+            break;
+        case "String":
+            retVal = "varchar(250)";
+            break;
+        case "boolean":
+        case "Boolean":
+            retVal = "boolean";
+            break;
+        case "long":
+        case "Long":
+            retVal = "bigint";
+        case "float":
+        case "Float":
+        case "double":
+        case "Double":
+            retVal = "float";
+            break;
+        case "char":
+            retVal = "varchar(1)";
+            break;
+        default :
+            retVal = "varchar(10)";
+        }
+
 
 		return retVal;
 	}
