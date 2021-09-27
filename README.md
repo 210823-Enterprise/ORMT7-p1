@@ -1,5 +1,5 @@
 # ORMT7-p1
-Created by: Noah Gaston,
+Created by: Noah Gaston, Casey Spencer, Rashid Taleb
 
 ## Description:
   This ORM uses CRUD methods created in java to interact with a database without the hassle of SQL or connection management.
@@ -64,7 +64,7 @@ Finally, inside your project structure you need a application.proprties file.
    - #### public static Connection getConnection()
       - Gets a single connection to the database that can be used by multiple different methods.
    - #### public ColumnField(Field field)
-      - Constructo that creates an object of type ColumnField if the input field is annotated with the column class
+      - Constructor that creates an object of type ColumnField if the input field is annotated with the column class
    - #### public static <T> MetaModel<T> of(Class<T> clazz)
       - Returns a metamodel of the input class so long as the class is annotated with the entity class.
    - #### public MetaModel(Class<T> clazz)
@@ -73,5 +73,8 @@ Finally, inside your project structure you need a application.proprties file.
       - Constructor that creates metamodel with the input parameters.
    - #### public void setColumns()
       - Goes through all annotated fields and sets the ones annotated to column into a list.
-   - #### public 
+   - #### public boolean deleteObject(Object obj, Connection conn)
+      - Deletes an object from a table with the primary key and table pulled from the object
+   - #### public boolean deleteObject(Object obj, Connection conn, Map<String,String> sqlWhere)
+      - Deletes an object from a table utilizing the table linked to in the object and a where clause identified by the passed in map (key, value: column name, value to be searched for). For use when a primary key does not exist. Supports multiple qualifiers as additional entries in the map.
 
