@@ -6,11 +6,10 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
+import com.team7.exceptions.NoColumnsException;
 import com.team7.util.ColumnField;
 import com.team7.util.ForeignKeyField;
 import com.team7.util.MetaModel;
-
-import Exceptions.NoColumnsException;
 
 public class ObjectSetter {
 

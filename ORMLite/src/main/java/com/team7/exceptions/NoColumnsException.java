@@ -1,4 +1,4 @@
-package Exceptions;
+package com.team7.exceptions;
 
 public class NoColumnsException extends RuntimeException{
 
