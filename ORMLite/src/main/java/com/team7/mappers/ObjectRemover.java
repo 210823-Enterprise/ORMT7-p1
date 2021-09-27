@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.team7.util.ConnectionUtil;
+import org.apache.log4j.Logger;
+
 import com.team7.util.IdField;
 import com.team7.util.MetaModel;
 
 public class ObjectRemover {
+	
+	private static Logger log = Logger.getLogger(ObjectRemover.class);
 
 	public static boolean deleteObject(Object obj, Connection conn) {
 		MetaModel<?> model = MetaModel.of(obj.getClass());
@@ -39,11 +42,11 @@ public class ObjectRemover {
 				stmt.execute();
 				break;
 			case -1:
-				System.out.println("Error with typing");
+				log.warn("Issue with Removal Typing");
 				return false;
 			}
 		} catch (SQLException e) {
-			System.out.println("unable to add table");
+			log.error("Unable to delete item, SQL error");
 			e.printStackTrace();
 			return false;
 		}
