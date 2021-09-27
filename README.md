@@ -61,4 +61,17 @@ Finally, inside your project structure you need a application.proprties file.
       - Reads a database for a row with primary key id and returns that row in a map.
    - #### public Map<Integer, Map<String, String>> getAll(Class<?> obj, Connection conn)
       - Reads a database from obj and returns a map that maps each row with another map containing each row's column contents.
+   - #### public static Connection getConnection()
+      - Gets a single connection to the database that can be used by multiple different methods.
+   - #### public ColumnField(Field field)
+      - Constructo that creates an object of type ColumnField if the input field is annotated with the column class
+   - #### public static <T> MetaModel<T> of(Class<T> clazz)
+      - Returns a metamodel of the input class so long as the class is annotated with the entity class.
+   - #### public MetaModel(Class<T> clazz)
+      - Constructor that creates the metamodel.
+   - #### public MetaModel(Class<T> clazz, IdField primarykeyField, List<ColumnField> columnFields,List<ForeignKeyField> foreignKeyFields) 
+      - Constructor that creates metamodel with the input parameters.
+   - #### public void setColumns()
+      - Goes through all annotated fields and sets the ones annotated to column into a list.
+   - #### public 
 
