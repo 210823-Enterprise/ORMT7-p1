@@ -77,9 +77,8 @@ public class ObjectReader {
 				ResultSetMetaData rsmeta = rs.getMetaData();
 				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
 					ret.put(rsmeta.getColumnName(i), rs.getString(rsmeta.getColumnName(i)));
-					log.info("printing object and value.");
 				}
-				multi.put(metaknight.getPrimaryKey().getColumnName(), ret);
+				multi.put(ret.get(metaknight.getPrimaryKey().getColumnName()), ret);
 			}
 		} catch (SQLException e) {
 			log.warn("Failed to deal with prepared statement.");
@@ -145,21 +144,11 @@ public class ObjectReader {
 				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
 					ret.put(rsmeta.getColumnName(i), rs.getString(rsmeta.getColumnName(i)));
 				}
-				boolean join = false;
-				Annotation[] a = obj.getAnnotations();
-				for(Annotation laz : a)
-				{
-					if(laz.getClass().toString().equals("Id.class"));
-					{
-						join = true;
-					}
-				}
-				if(join == true)
-				{
+				boolean hasPK = (metaknight.getPrimaryKey() != null);
+				
+				if(hasPK) {
 					multi.put(ret.get(metaknight.getPrimaryKey().getColumnName()), ret);
-				}
-				else
-				{
+				} else {
 					multi.put(String.valueOf(count), ret);
 					count++;
 				}
