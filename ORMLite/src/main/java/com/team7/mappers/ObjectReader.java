@@ -130,6 +130,7 @@ public class ObjectReader {
 		String sql = "SELECT * FROM " + metaknight.getTableName();
 		Map<String, String> ret = new HashMap<String, String>();
 		Map<String, Map<String, String>> multi = new HashMap<String, Map<String, String>>();
+		int count = 0;
 		try
 		{
 			log.info("Creating statement.");
@@ -144,7 +145,16 @@ public class ObjectReader {
 				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
 					ret.put(rsmeta.getColumnName(i), rs.getString(rsmeta.getColumnName(i)));
 				}
-				multi.put(ret.get(metaknight.getPrimaryKey().getColumnName()), ret);
+				boolean join = false;
+				if(join == false)
+				{
+					multi.put(ret.get(metaknight.getPrimaryKey().getColumnName()), ret);
+				}
+				else
+				{
+					multi.put(String.valueOf(count), ret);
+					count++;
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
