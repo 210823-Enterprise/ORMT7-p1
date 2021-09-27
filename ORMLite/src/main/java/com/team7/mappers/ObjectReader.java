@@ -149,12 +149,12 @@ public class ObjectReader {
 				Annotation[] a = obj.getAnnotations();
 				for(Annotation laz : a)
 				{
-					if(laz.getClass().toString().equals("Foreign.class"));
+					if(laz.getClass().toString().equals("Id.class"));
 					{
 						join = true;
 					}
 				}
-				if(join == false)
+				if(join == true)
 				{
 					multi.put(ret.get(metaknight.getPrimaryKey().getColumnName()), ret);
 				}
