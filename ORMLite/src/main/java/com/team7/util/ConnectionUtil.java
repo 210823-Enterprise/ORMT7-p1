@@ -10,8 +10,7 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 public class ConnectionUtil {
-	
-	//TODO create logger here
+
 	private static Logger log = Logger.getLogger(ConnectionUtil.class);
 	private static Connection conn = null;
 
@@ -64,11 +63,6 @@ public class ConnectionUtil {
 		}
 		log.info("Exiting getConnection method.");
 		return conn;
-	}
-	
-	public static void main(String[] args) {
-		
-		Connection conn = ConnectionUtil.getConnection();
 	}
 
 }
