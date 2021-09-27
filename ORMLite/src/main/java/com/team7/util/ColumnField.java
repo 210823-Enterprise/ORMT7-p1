@@ -40,7 +40,12 @@ public class ColumnField {
 		String type = field.getType().getSimpleName();
 		
 		String retVal; //return type string
+
 		switch (type) {
+		case "byte":
+		case "Byte":
+		case "short":
+		case "Short":
 		case "int":
 		case "Integer":
 			retVal = "integer";
@@ -48,8 +53,24 @@ public class ColumnField {
 		case "String":
 			retVal = "varchar(250)";
 			break;
+		case "boolean":
+		case "Boolean":
+			retVal = "boolean";
+			break;
+		case "long":
+		case "Long":
+			retVal = "bigint";
+		case "float":
+		case "Float":
+		case "double":
+		case "Double":
+			retVal = "float";
+			break;
+		case "char":
+			retVal = "varchar(1)";
+			break;
 		default :
-			retVal = "varchar(10)"; //type not found TODO put log here
+			retVal = "varchar(10)";
 		}
 		
 		return retVal;
