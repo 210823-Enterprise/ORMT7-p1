@@ -8,7 +8,6 @@ import com.team7.annotations.Column;
 import com.team7.annotations.Entity;
 import com.team7.annotations.Foreign;
 import com.team7.annotations.Id;
-import com.team7.exceptions.NoColumnsException;
 
 public class MetaModel<T> {
 
