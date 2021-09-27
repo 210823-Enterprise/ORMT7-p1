@@ -18,6 +18,8 @@ public class ConnectionUtil {
 	// we want a private constructor
 	private ConnectionUtil() {
 		super();
+		log.info("Creating constructor.");
+		
 	}
 
 	//static to persist the connection
@@ -52,7 +54,7 @@ public class ConnectionUtil {
 			conn = DriverManager.getConnection(url, username, password);
 			log.info("db connection established");
 		} catch (IOException e) {
-			System.out.println("CAN't FIND FILE");
+			System.out.println("CAN'T FIND FILE");
 			log.error("cannot locate application.properties file");
 			e.printStackTrace();
 		} catch (SQLException e) {
