@@ -18,15 +18,14 @@ public class ObjectReader {
 
 	private static Logger log = Logger.getLogger(ObjectReader.class);
 
-	public boolean readFromDb(Class<?> obj, Connection conn, Map<String, String> cont) {
+	public Map<String, String> readFromDb(Class<?> obj, Connection conn, Map<String, String> cont) { 
+		//Need to change return so that it will return Map<String, Map<STring, String>> so it can return values from more than one column.
 		
 		log.info("Searching based on input parameters.");
-		
+		Map<String, String> ret = new HashMap();
 		MetaModel<?> metaknight = MetaModel.of(obj);
 		
 		String sql = "SELECT * FROM " + metaknight.getTableName() + " WHERE";
-		
-		boolean success = false;
 		
 		int col = 1;
 		
@@ -57,7 +56,7 @@ public class ObjectReader {
 				log.info("Searching through result set.");
 				ResultSetMetaData rsmeta = rs.getMetaData();
 				for (int i = 1; i <= rsmeta.getColumnCount(); i++) {
-					System.out.println(rsmeta.getColumnName(i) + ": " + rs.getObject(i)); //TODO return string map instead
+					ret.pu(rsmeta.getColumnName(i), rs.getObject(i)); //TODO return string map instead
 					log.info("printing object and value.");
 				}
 			}
@@ -68,7 +67,7 @@ public class ObjectReader {
 			log.warn("Out of bounds. " + e);
 		}
 		log.info("ending readFromDb method.");
-		return success;
+		return ret;
 	}
 
 	public Map<String, String> getEntryById(Class<?> obj, Connection conn, String id) {
@@ -101,13 +100,12 @@ public class ObjectReader {
 		log.info("Exiting getEntry method.");
 		return ret;
 	}
-	
 	public Map<String, String> getAll(Class<?> obj, Connection conn)
 	{
 		log.info("Starting getAll method, Creating meta model.");
-		MetaModel<?> metaknight = MetaModel.of(obj);
+		MetaModel<?> metaknight = MotaModel.of(obj);
 		String sql = "SELECT * FROM " + metaknight.getTableName();
-		Map<String, String> ret = new HashMap<String, String>();
+		Map<String, String> ret = new HashMap();
 		try
 		{
 			log.info("Creating statement.");
