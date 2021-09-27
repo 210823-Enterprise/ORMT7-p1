@@ -1,6 +1,8 @@
 package com.team7.mappers;
 
 import org.apache.log4j.Logger;
+
+import java.lang.annotation.Annotation;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,7 +67,6 @@ public class ObjectReader {
 			sql = sql + " " + metaknight.getPrimaryKey().getName() + " = " + (metaknight.getPrimaryKey().getType().getSimpleName().equals("String") ? "'" + cont.get(metaknight.getPrimaryKey().getName()) + "'" : cont.get(metaknight.getPrimaryKey().getName()));
 		}
 		sql += ";";
-		System.out.println(sql);
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			log.info("Attempting to execute statement.");
@@ -78,7 +79,6 @@ public class ObjectReader {
 					ret.put(rsmeta.getColumnName(i), rs.getString(rsmeta.getColumnName(i)));
 					log.info("printing object and value.");
 				}
-				System.out.println(metaknight.getPrimaryKey().getColumnName());
 				multi.put(metaknight.getPrimaryKey().getColumnName(), ret);
 			}
 		} catch (SQLException e) {
@@ -146,6 +146,14 @@ public class ObjectReader {
 					ret.put(rsmeta.getColumnName(i), rs.getString(rsmeta.getColumnName(i)));
 				}
 				boolean join = false;
+				Annotation[] a = obj.getAnnotations();
+				for(Annotation laz : a)
+				{
+					if(laz.getClass().toString().equals("Foreign.class"));
+					{
+						join = true;
+					}
+				}
 				if(join == false)
 				{
 					multi.put(ret.get(metaknight.getPrimaryKey().getColumnName()), ret);
