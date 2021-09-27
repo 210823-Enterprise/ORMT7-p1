@@ -30,6 +30,10 @@ public class ForeignKeyField {
 	public String getReferenceTable() {
 		return field.getAnnotation(Foreign.class).reference();
 	}
+	
+	public String getReferencedKey() {
+		return field.getAnnotation(Foreign.class).referencedKey();
+	}
 
 	//TODO make this inherited or from util class (try to only write it once)
 	public String getSQLType() {

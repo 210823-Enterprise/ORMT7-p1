@@ -9,5 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Foreign {
 	String columnName();
-	String reference();
+	String reference(); //the referenced table
+	String referencedKey(); //the key in the table you are referencing
 }

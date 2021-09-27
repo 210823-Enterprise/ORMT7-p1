@@ -1,20 +1,15 @@
 package com.team7.util;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.team7.annotations.Column;
 import com.team7.annotations.Entity;
+import com.team7.annotations.Foreign;
 import com.team7.annotations.Id;
 
 import Exceptions.NoColumnsException;
-
-import com.team7.annotations.Foreign;
 
 public class MetaModel<T> {
 
@@ -40,6 +35,7 @@ public class MetaModel<T> {
 	public MetaModel(Class<T> clazz) {
 		this.clazz = clazz;
 		this.columnFields = new LinkedList<>(); // altered to fill columns (may not work, TODO test it)
+		this.foreignKeyFields = new LinkedList<>();
 	}
 
 	public MetaModel(Class<T> clazz, IdField primarykeyField, List<ColumnField> columnFields,
@@ -87,7 +83,7 @@ public class MetaModel<T> {
 		if (primarykeyField != null) {
 			return primarykeyField;
 		} else {
-			throw new NoColumnsException("no column found with @Id in: " + clazz.getName());
+			return null;
 		}
 	}
 
@@ -108,10 +104,6 @@ public class MetaModel<T> {
 		if (!columnsSet)
 			setColumns();
 
-		if (columnFields.isEmpty()) {
-			throw new NoColumnsException("No columns found in: " + clazz.getName());
-		}
-
 		return columnFields;
 	}
 
@@ -131,10 +123,6 @@ public class MetaModel<T> {
 
 		if (!foreignKeysSet)
 			setForeignKeys();
-
-		if (foreignKeyFields.isEmpty()) {
-			throw new NoColumnsException("No foreign keys found in: " + clazz.getName());
-		}
 
 		return foreignKeyFields;
 
